@@ -43,18 +43,18 @@ const GET_CITY_BY_NAME = gql`
 `
 
 export default function TabOneScreen() {
-  const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
-    variables: { name: "Gothenburg" },
-  })
-  if (loading) {
-    return <Text>Loading ...</Text>
-  }
+  // const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
+  //   variables: { name: "Gothenburg" },
+  // })
+  // if (loading) {
+  //   return <Text>Loading ...</Text>
+  // }
 
-  if (error) {
-    console.log({ error })
-  }
+  // if (error) {
+  //   console.log({ error })
+  // }
 
-  console.log({ data })
+  // console.log({ data })
 
   return (
     <View style={styles.container}>
@@ -64,7 +64,7 @@ export default function TabOneScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      <EditScreenInfo path="/screens/ListScreen.tsx" />
     </View>
   )
 }
