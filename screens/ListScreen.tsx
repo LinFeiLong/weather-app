@@ -5,42 +5,44 @@ import { gql, useQuery } from "@apollo/client"
 import EditScreenInfo from "../components/EditScreenInfo"
 import { Text, View } from "../components/Themed"
 
-const GET_CITY_BY_NAME = gql`
-  query GetCityByName($name: String!) {
-    getCityByName(name: $name) {
-      id
-      name
-      country
-      coord {
-        lon
-        lat
-      }
-      weather {
-        summary {
-          title
-          description
-          icon
-        }
-        temperature {
-          actual
-          feelsLike
-          min
-          max
-        }
-        wind {
-          speed
-          deg
-        }
-        clouds {
-          all
-          visibility
-          humidity
-        }
-        timestamp
-      }
-    }
-  }
-`
+import { GET_CITY_BY_NAME_DATA } from "./ListScreen.data"
+
+// const GET_CITY_BY_NAME = gql`
+//   query GetCityByName($name: String!) {
+//     getCityByName(name: $name) {
+//       id
+//       name
+//       country
+//       coord {
+//         lon
+//         lat
+//       }
+//       weather {
+//         summary {
+//           title
+//           description
+//           icon
+//         }
+//         temperature {
+//           actual
+//           feelsLike
+//           min
+//           max
+//         }
+//         wind {
+//           speed
+//           deg
+//         }
+//         clouds {
+//           all
+//           visibility
+//           humidity
+//         }
+//         timestamp
+//       }
+//     }
+//   }
+// `
 
 export default function TabOneScreen() {
   // const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
@@ -58,13 +60,7 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="/screens/ListScreen.tsx" />
+      <Text style={styles.title}>List Screen</Text>
     </View>
   )
 }

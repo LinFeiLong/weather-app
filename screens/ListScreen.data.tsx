@@ -1,4 +1,4 @@
-const GET_CITY_BY_NAME_DATA = {
+export const GET_CITY_BY_NAME_DATA = {
   data: {
     getCityByName: {
       __typename: "City",
