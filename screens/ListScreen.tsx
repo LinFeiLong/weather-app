@@ -2,13 +2,14 @@ import * as React from "react"
 import { Button, Dimensions, StyleSheet } from "react-native"
 import { gql, useQuery, useReactiveVar } from "@apollo/client"
 import { LinearGradient } from "expo-linear-gradient"
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
+import { FlatList } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useHeaderHeight } from "@react-navigation/stack"
 import LottieView from "lottie-react-native"
 import _ from "lodash"
 import lookup from "country-code-lookup"
 import { useNavigation } from "@react-navigation/native"
+import RNBounceable from "@freakycoder/react-native-bounceable"
 
 import { Text, View } from "../components/Themed"
 import Icons from "../constants/Icons"
@@ -90,7 +91,7 @@ function Item({ cityName }: { cityName: string }) {
   const countryName = lookup.byIso(country).country
 
   return (
-    <TouchableOpacity
+    <RNBounceable
       style={styles.card}
       onPress={() => {
         navigation.navigate("DetailScreen")
@@ -104,7 +105,7 @@ function Item({ cityName }: { cityName: string }) {
         <Text style={styles.city}>{name}</Text>
         <Text style={styles.country}>{countryName}</Text>
       </View>
-    </TouchableOpacity>
+    </RNBounceable>
   )
 }
 
@@ -152,7 +153,7 @@ export function ListScreen() {
       style={styles.container}
     >
       <FlatList
-        ListHeaderComponent={listHeaderComponent}
+        // ListHeaderComponent={listHeaderComponent}
         style={{ paddingTop: headerHight, paddingBottom: insets.bottom }}
         numColumns={2}
         contentContainerStyle={{ backgroundColor: "transparent" }}

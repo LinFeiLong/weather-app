@@ -85,7 +85,7 @@ export default function App() {
           <StatusBar style="light" />
 
           {/* DEBUG */}
-          {__DEV__ && (
+          {/* {__DEV__ && (
             <View style={styles.controls}>
               <Button title={"Clear cache"} onPress={clearCache} />
               <Button
@@ -93,7 +93,7 @@ export default function App() {
                 onPress={reload}
               />
             </View>
-          )}
+          )} */}
         </SafeAreaProvider>
       </ApolloProvider>
     )
