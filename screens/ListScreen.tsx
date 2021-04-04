@@ -6,6 +6,8 @@ import EditScreenInfo from "../components/EditScreenInfo"
 import { Text, View } from "../components/Themed"
 
 import { GET_CITY_BY_NAME_DATA } from "./ListScreen.data"
+import { LinearGradient } from "expo-linear-gradient"
+import Colors from "../constants/Colors"
 
 // const GET_CITY_BY_NAME = gql`
 //   query GetCityByName($name: String!) {
@@ -59,9 +61,19 @@ export default function TabOneScreen() {
   // console.log({ data })
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>List Screen</Text>
-    </View>
+    <LinearGradient
+      // Background Linear Gradient
+      colors={[
+        Colors.default.LgBackgroundTop,
+        Colors.default.LgBackgroundBottom,
+      ]}
+      // style={styles.background}
+      style={styles.container}
+    />
+    // <View style={styles.container}>
+    //   <Text style={styles.title}>List Screen</Text>
+    //   <View style={{}}></View>
+    // </View>
   )
 }
 
