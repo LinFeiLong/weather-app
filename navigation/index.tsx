@@ -7,9 +7,13 @@ import { createStackNavigator } from "@react-navigation/stack"
 import * as React from "react"
 import { ColorSchemeName } from "react-native"
 
-import NotFoundScreen from "../screens/NotFoundScreen"
 import { RootStackParamList } from "../types"
-import TabOneScreen from "../screens/ListScreen"
+import {
+  ListScreen,
+  SearchScreen,
+  DetailScreen,
+  NotFoundScreen,
+} from "../screens"
 import LinkingConfiguration from "./LinkingConfiguration"
 
 // If you are not familiar with React Navigation, we recommend going through the
@@ -37,22 +41,29 @@ function RootNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="ListScreen"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: true,
+        headerTransparent: true,
+        headerTitleStyle: { color: "white" },
+      }}
     >
       <Stack.Screen
         name="ListScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
+        component={ListScreen}
+        options={{
+          headerTitle: "Add city",
+          headerLeft: () => [],
+          headerRight: () => [],
+        }}
       />
-      <Stack.Screen
-        name="SearchScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
-      />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen
         name="DetailScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
+        component={DetailScreen}
+        options={{
+          headerTitle: "Date",
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="NotFound"

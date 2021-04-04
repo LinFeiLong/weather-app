@@ -46,7 +46,7 @@ import Colors from "../constants/Colors"
 //   }
 // `
 
-export default function TabOneScreen() {
+export function ListScreen() {
   // const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
   //   variables: { name: "Gothenburg" },
   // })
