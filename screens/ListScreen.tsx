@@ -2,12 +2,13 @@ import * as React from "react"
 import { Dimensions, StyleSheet } from "react-native"
 import { gql, useQuery } from "@apollo/client"
 import { LinearGradient } from "expo-linear-gradient"
-import { FlatList } from "react-native-gesture-handler"
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useHeaderHeight } from "@react-navigation/stack"
 import LottieView from "lottie-react-native"
 import _ from "lodash"
 import lookup from "country-code-lookup"
+import { useNavigation } from "@react-navigation/native"
 
 import { Text, View } from "../components/Themed"
 import Icons from "../constants/Icons"
@@ -61,6 +62,7 @@ function Item({ cityName }) {
   const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
     variables: { name: cityName },
   })
+  const navigation = useNavigation()
 
   if (loading) {
     return <Text>Loading ...</Text>
@@ -84,7 +86,12 @@ function Item({ cityName }) {
   const countryName = lookup.byIso(country).country
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => {
+        navigation.navigate("DetailScreen")
+      }}
+    >
       <View style={styles.cardHeader}>
         <Text style={styles.title}>{`${_.round(kToC(actual))}°`}</Text>
         <LottieView autoPlay loop style={styles.lottie} source={Icons[icon]} />
@@ -93,7 +100,7 @@ function Item({ cityName }) {
         <Text style={styles.city}>{name}</Text>
         <Text style={styles.country}>{countryName}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

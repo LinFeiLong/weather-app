@@ -53,12 +53,19 @@ function RootNavigator() {
       <Stack.Screen
         name="ListScreen"
         component={ListScreen}
-        options={{
+        options={({ navigation }) => ({
           headerTitle: "Add city",
           headerRight: () => (
-            <MaterialCommunityIcons name="plus" size={32} color="white" />
+            <MaterialCommunityIcons
+              name="plus"
+              size={32}
+              color="white"
+              onPress={() => {
+                navigation.navigate("SearchScreen")
+              }}
+            />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name="SearchScreen"
@@ -70,12 +77,20 @@ function RootNavigator() {
       <Stack.Screen
         name="DetailScreen"
         component={DetailScreen}
-        options={{
+        options={({ navigation }) => ({
           headerTitle: "Date",
           headerLeft: () => (
-            <MaterialCommunityIcons name="menu" size={32} color="white" />
+            <MaterialCommunityIcons
+              name="menu"
+              size={32}
+              color="white"
+              onPress={() => {
+                navigation.navigate("ListScreen")
+              }}
+            />
           ),
           headerRight: () => (
+            // TODO: make a switch for temperature type.
             <MaterialCommunityIcons
               name="temperature-celsius"
               size={32}
@@ -87,7 +102,7 @@ function RootNavigator() {
             //   color="white"
             // />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name="NotFound"
