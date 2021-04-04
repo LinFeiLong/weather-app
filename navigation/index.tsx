@@ -15,6 +15,7 @@ import {
   NotFoundScreen,
 } from "../screens"
 import LinkingConfiguration from "./LinkingConfiguration"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -45,6 +46,8 @@ function RootNavigator() {
         headerShown: true,
         headerTransparent: true,
         headerTitleStyle: { color: "white" },
+        headerLeftContainerStyle: { marginLeft: 32 },
+        headerRightContainerStyle: { marginRight: 32 },
       }}
     >
       <Stack.Screen
@@ -52,17 +55,38 @@ function RootNavigator() {
         component={ListScreen}
         options={{
           headerTitle: "Add city",
-          headerLeft: () => [],
-          headerRight: () => [],
+          headerRight: () => (
+            <MaterialCommunityIcons name="plus" size={32} color="white" />
+          ),
         }}
       />
-      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="DetailScreen"
         component={DetailScreen}
         options={{
           headerTitle: "Date",
-          headerShown: false,
+          headerLeft: () => (
+            <MaterialCommunityIcons name="menu" size={32} color="white" />
+          ),
+          headerRight: () => (
+            <MaterialCommunityIcons
+              name="temperature-celsius"
+              size={32}
+              color="white"
+            />
+            // <MaterialCommunityIcons
+            //   name="temperature-fahrenheit"
+            //   size={32}
+            //   color="white"
+            // />
+          ),
         }}
       />
       <Stack.Screen
