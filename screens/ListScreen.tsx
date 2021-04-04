@@ -1,107 +1,140 @@
 import * as React from "react"
 import { Dimensions, StyleSheet } from "react-native"
 import { gql, useQuery } from "@apollo/client"
-
-import EditScreenInfo from "../components/EditScreenInfo"
-import { Text, View } from "../components/Themed"
-
-import { GET_CITY_BY_NAME_DATA } from "./ListScreen.data"
 import { LinearGradient } from "expo-linear-gradient"
-import Colors from "../constants/Colors"
-import { FlatList, ScrollView } from "react-native-gesture-handler"
+import { FlatList } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useHeaderHeight } from "@react-navigation/stack"
+import LottieView from "lottie-react-native"
+import _ from "lodash"
+import lookup from "country-code-lookup"
 
-// const GET_CITY_BY_NAME = gql`
-//   query GetCityByName($name: String!) {
-//     getCityByName(name: $name) {
-//       id
-//       name
-//       country
-//       coord {
-//         lon
-//         lat
-//       }
-//       weather {
-//         summary {
-//           title
-//           description
-//           icon
-//         }
-//         temperature {
-//           actual
-//           feelsLike
-//           min
-//           max
-//         }
-//         wind {
-//           speed
-//           deg
-//         }
-//         clouds {
-//           all
-//           visibility
-//           humidity
-//         }
-//         timestamp
-//       }
-//     }
-//   }
-// `
+import { Text, View } from "../components/Themed"
+import Icons from "../constants/Icons"
+import Colors from "../constants/Colors"
+
+const GET_CITY_BY_NAME = gql`
+  query GetCityByName($name: String!) {
+    getCityByName(name: $name) {
+      id
+      name
+      country
+      coord {
+        lon
+        lat
+      }
+      weather {
+        summary {
+          title
+          description
+          icon
+        }
+        temperature {
+          actual
+          feelsLike
+          min
+          max
+        }
+        wind {
+          speed
+          deg
+        }
+        clouds {
+          all
+          visibility
+          humidity
+        }
+        timestamp
+      }
+    }
+  }
+`
+
+/**
+ * Convert temperature from Kelvin to Celcius
+ */
+function kToC(K: number) {
+  return K - 273.15
+}
+
+function Item({ cityName }) {
+  const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
+    variables: { name: cityName },
+  })
+
+  if (loading) {
+    return <Text>Loading ...</Text>
+  }
+
+  if (error) {
+    console.warn({ error })
+  }
+
+  const {
+    getCityByName: {
+      country,
+      name,
+      weather: {
+        summary: { icon },
+        temperature: { actual },
+      },
+    },
+  } = data
+
+  const countryName = lookup.byIso(country).country
+
+  return (
+    <View style={styles.card}>
+      <View style={styles.cardHeader}>
+        <Text style={styles.title}>{`${_.round(kToC(actual))}°`}</Text>
+        <LottieView autoPlay loop style={styles.lottie} source={Icons[icon]} />
+      </View>
+      <View style={styles.cardFooter}>
+        <Text style={styles.city}>{name}</Text>
+        <Text style={styles.country}>{countryName}</Text>
+      </View>
+    </View>
+  )
+}
 
 export function ListScreen() {
-  // const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
-  //   variables: { name: "Gothenburg" },
-  // })
-  // if (loading) {
-  //   return <Text>Loading ...</Text>
-  // }
-
-  // if (error) {
-  //   console.log({ error })
-  // }
-
-  // console.log({ data })
-
   const insets = useSafeAreaInsets()
   const headerHight = useHeaderHeight()
 
   return (
     <LinearGradient
-      // Background Linear Gradient
       colors={[
         Colors.default.LgBackgroundTop,
         Colors.default.LgBackgroundBottom,
       ]}
-      // start={[20, 0]}
-      // end={[80, 0]}
       style={styles.container}
     >
       <FlatList
-        // contentContainerStyle={{ marginHorizontal: 32 }}
         style={{ paddingTop: headerHight, paddingBottom: insets.bottom }}
         numColumns={2}
         contentContainerStyle={{ backgroundColor: "transparent" }}
-        renderItem={({ index }) => (
-          <View style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.title}>{`${index}°`}</Text>
-            </View>
-            <View style={styles.cardFooter}>
-              <Text style={styles.city}>City</Text>
-              <Text style={styles.country}>Country</Text>
-            </View>
-          </View>
-        )}
-        data={[{}, {}, {}]}
-      ></FlatList>
+        keyExtractor={({ item, index }) => index}
+        renderItem={({ item }) => {
+          return <Item cityName={item} />
+        }}
+        data={["Colmar", "Algiers", "Tokyo"]}
+      />
     </LinearGradient>
   )
 }
 
 const styles = StyleSheet.create({
+  lottie: {
+    top: -2,
+    right: -2,
+    width: 64,
+    height: 64,
+    backgroundColor: "transparent",
+  },
   cardHeader: {
     backgroundColor: "transparent",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   cardFooter: {
     backgroundColor: "transparent",
@@ -138,10 +171,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 })
