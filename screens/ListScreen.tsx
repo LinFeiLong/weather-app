@@ -1,6 +1,6 @@
 import * as React from "react"
-import { Dimensions, StyleSheet } from "react-native"
-import { gql, useQuery } from "@apollo/client"
+import { Button, Dimensions, StyleSheet } from "react-native"
+import { gql, useQuery, useReactiveVar } from "@apollo/client"
 import { LinearGradient } from "expo-linear-gradient"
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -13,6 +13,9 @@ import { useNavigation } from "@react-navigation/native"
 import { Text, View } from "../components/Themed"
 import Icons from "../constants/Icons"
 import Colors from "../constants/Colors"
+import { citiesInVar } from "../constants/Apollo"
+import { useEffect, useState } from "react"
+import useAsyncStorage from "../hooks/useAsyncStorage"
 
 const GET_CITY_BY_NAME = gql`
   query GetCityByName($name: String!) {
@@ -58,9 +61,10 @@ function kToC(K: number) {
   return K - 273.15
 }
 
-function Item({ cityName }) {
+function Item({ cityName }: { cityName: string }) {
   const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
     variables: { name: cityName },
+    fetchPolicy: "cache-and-network",
   })
   const navigation = useNavigation()
 
@@ -108,6 +112,37 @@ export function ListScreen() {
   const insets = useSafeAreaInsets()
   const headerHight = useHeaderHeight()
 
+  const [getCities, storeCities] = useAsyncStorage("@cities")
+  const [cities, setCities] = useState<string[]>([])
+
+  useEffect(() => {
+    async function setCitiesInVar() {
+      citiesInVar(await getCities())
+    }
+    setCitiesInVar()
+  }, [])
+
+  const citiesRV: string[] = useReactiveVar(citiesInVar)
+
+  useEffect(() => {
+    setCities(citiesRV)
+    storeCities(citiesRV)
+  }, [citiesRV])
+
+  const listHeaderComponent = () => {
+    if (!__DEV__) {
+      return null
+    }
+    return (
+      <Button
+        title={"citiesInVar"}
+        onPress={() => {
+          console.log({ citiesRV })
+        }}
+      />
+    )
+  }
+
   return (
     <LinearGradient
       colors={[
@@ -117,20 +152,25 @@ export function ListScreen() {
       style={styles.container}
     >
       <FlatList
+        ListHeaderComponent={listHeaderComponent}
         style={{ paddingTop: headerHight, paddingBottom: insets.bottom }}
         numColumns={2}
         contentContainerStyle={{ backgroundColor: "transparent" }}
-        keyExtractor={({ item, index }) => index}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => {
           return <Item cityName={item} />
         }}
-        data={["Colmar", "Algiers", "Tokyo"]}
+        data={cities}
       />
     </LinearGradient>
   )
 }
 
 const styles = StyleSheet.create({
+  heading: {
+    padding: 16,
+    fontWeight: "bold",
+  },
   lottie: {
     top: -2,
     right: -2,
