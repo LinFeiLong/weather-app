@@ -50,8 +50,34 @@ const GET_CITY_BY_NAME = gql`
 export function WeatherItem({ cityName }: { cityName: string }) {
   const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
     variables: { name: cityName },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "cache-first",
   })
+
+  const navigation = useNavigation()
+
+  if (loading) {
+    return <Text>Loading ...</Text>
+  }
+
+  if (error) {
+    console.warn({ error })
+  }
+
+  if (!data?.getCityByName) {
+    return (
+      <RNBounceable style={[styles.card, { opacity: 0.25 }]} disabled>
+        <View style={styles.cardHeader}>
+          <Text style={styles.title}>N/A</Text>
+          <View style={styles.lottie} />
+        </View>
+        <View style={styles.cardFooter}>
+          <Text style={styles.city}>{cityName}</Text>
+          <Text style={styles.country} />
+        </View>
+      </RNBounceable>
+    )
+  }
+
   const {
     getCityByName: {
       country,
@@ -62,15 +88,6 @@ export function WeatherItem({ cityName }: { cityName: string }) {
       },
     },
   } = data
-  const navigation = useNavigation()
-
-  if (loading) {
-    return <Text>Loading ...</Text>
-  }
-
-  if (error) {
-    console.warn({ error })
-  }
 
   const countryName = lookup.byIso(country).country
 
@@ -86,7 +103,7 @@ export function WeatherItem({ cityName }: { cityName: string }) {
         <LottieView autoPlay loop style={styles.lottie} source={Icons[icon]} />
       </View>
       <View style={styles.cardFooter}>
-        <Text style={styles.city}>{name}</Text>
+        <Text style={styles.city}>{cityName}</Text>
         <Text style={styles.country}>{countryName}</Text>
       </View>
     </RNBounceable>
