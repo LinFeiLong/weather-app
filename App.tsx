@@ -7,6 +7,7 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client"
+import * as Animatable from "react-native-animatable"
 
 import useCachedResources from "./hooks/useCachedResources"
 import useColorScheme from "./hooks/useColorScheme"
@@ -58,18 +59,33 @@ export default function App() {
     }
 
     init().catch(console.error)
+
+    // Init custom animations
+    Animatable.initializeRegistryWithDefinitions({
+      MyShake: {
+        0: {
+          transform: [{ rotateZ: -0.04 }],
+        },
+        0.5: {
+          transform: [{ rotateZ: 0.04 }],
+        },
+        1: {
+          transform: [{ rotateZ: -0.04 }],
+        },
+      },
+    })
   }, [])
 
-  const clearCache = useCallback(() => {
-    if (!persistor) {
-      return
-    }
-    persistor.purge()
-  }, [persistor])
+  // const clearCache = useCallback(() => {
+  //   if (!persistor) {
+  //     return
+  //   }
+  //   persistor.purge()
+  // }, [persistor])
 
-  const reload = useCallback(() => {
-    DevSettings.reload()
-  }, [])
+  // const reload = useCallback(() => {
+  //   DevSettings.reload()
+  // }, [])
 
   if (!client) {
     return <Text style={styles.heading}>Initializing app...</Text>

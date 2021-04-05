@@ -2,13 +2,18 @@ import { gql, useQuery } from "@apollo/client"
 import { useNavigation } from "@react-navigation/native"
 import RNBounceable from "@freakycoder/react-native-bounceable"
 import React from "react"
-import { Dimensions, Text, View, StyleSheet } from "react-native"
+import { Dimensions, Text, View, StyleSheet, Vibration } from "react-native"
 import LottieView from "lottie-react-native"
 import lookup from "country-code-lookup"
 import _ from "lodash"
+import * as Animatable from "react-native-animatable"
 
 import Icons from "../constants/Icons"
 import { kToC, kToF } from "../utils/temperature"
+import { TouchableWithoutFeedback } from "react-native-gesture-handler"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import { citiesInVar } from "../constants/Apollo"
 
 const GET_CITY_BY_NAME = gql`
   query GetCityByName($name: String!) {
@@ -46,8 +51,17 @@ const GET_CITY_BY_NAME = gql`
     }
   }
 `
+interface WeatherItemProps {
+  cityName: string
+  editMode: boolean
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-export function WeatherItem({ cityName }: { cityName: string }) {
+export const WeatherItem = React.memo(function WeatherItem({
+  cityName,
+  editMode,
+  setEditMode,
+}: WeatherItemProps) {
   const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
     variables: { name: cityName },
     fetchPolicy: "cache-first",
@@ -55,36 +69,97 @@ export function WeatherItem({ cityName }: { cityName: string }) {
 
   const navigation = useNavigation()
 
-  if (loading) {
-    return <Text>Loading ...</Text>
+  function ItemContainer({
+    children,
+  }: {
+    children: React.ReactElement | React.ReactElement[]
+  }) {
+    return (
+      <TouchableWithoutFeedback
+        onPress={() => {
+          if (!editMode) {
+            navigation.navigate("DetailScreen", { data, countryName, cityName })
+          }
+        }}
+        onLongPress={() => {
+          if (!editMode) {
+            setEditMode(true)
+            Vibration.vibrate(0)
+          }
+        }}
+      >
+        <Animatable.View
+          animation={!editMode ? "" : "MyShake"}
+          duration={250}
+          iterationCount="infinite"
+        >
+          {children}
+        </Animatable.View>
+      </TouchableWithoutFeedback>
+    )
+  }
+
+  function DeleteButton() {
+    return (
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          opacity: !editMode ? 0 : 1,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            height: 25,
+            width: 25,
+            backgroundColor: "#E0E5F1", // Mystic
+            borderRadius: 25 / 2,
+          }}
+          onPress={() => {
+            citiesInVar(_.pull([...citiesInVar()], cityName))
+          }}
+        >
+          <MaterialCommunityIcons name="minus" size={25} />
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   if (error) {
     console.warn({ error })
   }
 
-  if (!data?.getCityByName) {
+  // WeatherItem whitout data
+  if (loading || !data?.getCityByName) {
     return (
-      <RNBounceable style={[styles.card, { opacity: 0.25 }]} disabled>
-        <View style={styles.cardHeader}>
-          <Text style={styles.title}>N/A</Text>
-          <View style={styles.lottie} />
+      <ItemContainer>
+        <DeleteButton />
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            {loading ? (
+              <Text>Loading ...</Text>
+            ) : (
+              <Text style={styles.title}>N/A</Text>
+            )}
+            <View style={styles.lottie} />
+          </View>
+          <View style={styles.cardFooter}>
+            <Text
+              style={styles.city}
+              adjustsFontSizeToFit
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {cityName}
+            </Text>
+            <Text style={styles.country} />
+          </View>
         </View>
-        <View style={styles.cardFooter}>
-          <Text
-            style={styles.city}
-            adjustsFontSizeToFit
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {cityName}
-          </Text>
-          <Text style={styles.country} />
-        </View>
-      </RNBounceable>
+      </ItemContainer>
     )
   }
 
+  // WeatherItem with data
   const {
     getCityByName: {
       country,
@@ -99,23 +174,26 @@ export function WeatherItem({ cityName }: { cityName: string }) {
   const countryName = lookup.byIso(country).country
 
   return (
-    <RNBounceable
-      style={styles.card}
-      onPress={() => {
-        navigation.navigate("DetailScreen", { data, countryName, cityName })
-      }}
-    >
-      <View style={styles.cardHeader}>
-        <Text style={styles.title}>{`${_.round(kToC(actual))}°`}</Text>
-        <LottieView autoPlay loop style={styles.lottie} source={Icons[icon]} />
+    <ItemContainer>
+      <DeleteButton />
+      <View style={styles.card}>
+        <View style={styles.cardHeader}>
+          <Text style={styles.title}>{`${_.round(kToC(actual))}°`}</Text>
+          <LottieView
+            autoPlay
+            loop
+            style={styles.lottie}
+            source={Icons[icon]}
+          />
+        </View>
+        <View style={styles.cardFooter}>
+          <Text style={styles.city}>{cityName}</Text>
+          <Text style={styles.country}>{countryName}</Text>
+        </View>
       </View>
-      <View style={styles.cardFooter}>
-        <Text style={styles.city}>{cityName}</Text>
-        <Text style={styles.country}>{countryName}</Text>
-      </View>
-    </RNBounceable>
+    </ItemContainer>
   )
-}
+})
 
 const styles = StyleSheet.create({
   lottie: {

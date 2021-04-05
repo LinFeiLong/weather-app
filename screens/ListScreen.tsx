@@ -19,6 +19,7 @@ export function ListScreen() {
 
   const [getCities, storeCities] = useAsyncStorage("@cities")
   const [cities, setCities] = useState<string[]>([])
+  const [editMode, setEditMode] = useState(false)
 
   useEffect(() => {
     async function setCitiesInVar() {
@@ -34,19 +35,19 @@ export function ListScreen() {
     storeCities(citiesRV)
   }, [citiesRV])
 
-  const listHeaderComponent = () => {
-    if (!__DEV__) {
-      return null
-    }
-    return (
-      <Button
-        title={"citiesInVar"}
-        onPress={() => {
-          console.log({ citiesRV })
-        }}
-      />
-    )
-  }
+  // const listHeaderComponent = () => {
+  //   if (!__DEV__) {
+  //     return null
+  //   }
+  //   return (
+  //     <Button
+  //       title={"citiesInVar"}
+  //       onPress={() => {
+  //         console.log({ citiesRV })
+  //       }}
+  //     />
+  //   )
+  // }
 
   return (
     <LinearGradient
@@ -57,6 +58,7 @@ export function ListScreen() {
       style={[styles.container]}
     >
       <FlatList
+        style={{ overflow: "visible" }}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <View
@@ -72,7 +74,13 @@ export function ListScreen() {
         contentContainerStyle={{ backgroundColor: "transparent" }}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => {
-          return <WeatherItem cityName={item} />
+          return (
+            <WeatherItem
+              cityName={item}
+              editMode={editMode}
+              setEditMode={setEditMode}
+            />
+          )
         }}
         data={cities}
       />
