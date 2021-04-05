@@ -9,6 +9,7 @@ import Icons from "../constants/Icons"
 import Colors from "../constants/Colors"
 import { kToC } from "../utils/temperature"
 import { default as Layout } from "../constants/Layout"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 export function DetailScreen({ route }) {
   const headerHight = useHeaderHeight()
@@ -46,7 +47,19 @@ export function DetailScreen({ route }) {
               kToC(actual)
             )}°`}</Text>
             <View style={styles.minmaxContainer}>
-              <Text style={styles.minmax}>{`${_.round(kToC(actual))}°`}</Text>
+              <MaterialCommunityIcons
+                name="chevron-up"
+                size={20}
+                style={styles.chevron}
+              />
+              <Text style={[styles.minmax, { marginRight: 4 }]}>{`${_.round(
+                kToC(actual)
+              )}°`}</Text>
+              <MaterialCommunityIcons
+                name="chevron-down"
+                size={20}
+                style={styles.chevron}
+              />
               <Text style={styles.minmax}>{`${_.round(kToC(actual))}°`}</Text>
             </View>
             <Text style={styles.description}>{_.upperFirst(description)}</Text>
@@ -99,8 +112,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     height: Layout.window.width,
-    borderBottomColor: Colors.athensGrey,
-    borderBottomWidth: 1,
+    // borderBottomColor: Colors.athensGrey,
+    // borderBottomWidth: 1,
   },
   cardFooter: {
     backgroundColor: "transparent",
@@ -131,11 +144,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: Colors.athensGrey,
-    opacity: 0.4,
   },
   actual: {
     fontSize: 14,
     fontWeight: "bold",
+    color: Colors.athensGrey,
+    opacity: 0.4,
+  },
+  chevron: {
     color: Colors.athensGrey,
     opacity: 0.4,
   },
