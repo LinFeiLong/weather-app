@@ -11,6 +11,7 @@ import { citiesInVar } from "../constants/Apollo"
 import { useEffect, useState } from "react"
 import useAsyncStorage from "../hooks/useAsyncStorage"
 import { WeatherItem } from "../components/WeatherItem"
+import { View } from "../components/Themed"
 
 export function ListScreen() {
   const insets = useSafeAreaInsets()
@@ -53,11 +54,20 @@ export function ListScreen() {
         Colors.default.LgBackgroundTop,
         Colors.default.LgBackgroundBottom,
       ]}
-      style={styles.container}
+      style={[styles.container]}
     >
       <FlatList
-        // ListHeaderComponent={listHeaderComponent}
-        style={{ paddingTop: headerHight, paddingBottom: insets.bottom }}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={() => (
+          <View
+            style={{ height: headerHight, backgroundColor: "transparent" }}
+          />
+        )}
+        ListFooterComponent={() => (
+          <View
+            style={{ height: insets.bottom, backgroundColor: "transparent" }}
+          />
+        )}
         numColumns={2}
         contentContainerStyle={{ backgroundColor: "transparent" }}
         keyExtractor={(item, index) => index.toString()}
@@ -73,7 +83,7 @@ export function ListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     alignItems: "center",
-    justifyContent: "center",
   },
 })
