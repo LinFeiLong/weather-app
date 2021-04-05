@@ -1,4 +1,5 @@
-import { Dimensions, StyleSheet } from "react-native"
+import { StyleSheet } from "react-native"
+import { default as Layout } from "../constants/Layout"
 
 export const WEATHER_ITEM_STYLES = StyleSheet.create({
   deleteButtonContainer: {
@@ -52,8 +53,8 @@ export const WEATHER_ITEM_STYLES = StyleSheet.create({
   card: {
     backgroundColor: "#ACB8C7", // Cadet Blue
     height: 140,
-    width: Dimensions.get("window").width / 2 - 32 - 20,
-    borderRadius: (Dimensions.get("window").width / 2 - 32 - 20) / 12,
+    width: Layout.window.width / 2 - 32 - 20,
+    borderRadius: (Layout.window.width / 2 - 32 - 20) / 12,
     margin: 12,
     paddingHorizontal: 14,
     paddingTop: 20,

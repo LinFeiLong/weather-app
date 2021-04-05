@@ -1,13 +1,14 @@
 import { LinearGradient } from "expo-linear-gradient"
 import * as React from "react"
-import { StyleSheet, View, Text, Dimensions } from "react-native"
+import { StyleSheet, View, Text } from "react-native"
 import LottieView from "lottie-react-native"
 import _ from "lodash"
+import { useHeaderHeight } from "@react-navigation/stack"
 
 import Icons from "../constants/Icons"
 import Colors from "../constants/Colors"
 import { kToC } from "../utils/temperature"
-import { useHeaderHeight } from "@react-navigation/stack"
+import { default as Layout } from "../constants/Layout"
 
 export function DetailScreen({ route }) {
   // static sharedElements = (navigation, otherNavigation, showing) => {
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     flexDirection: "row",
     justifyContent: "space-between",
-    height: Dimensions.get("window").width,
+    height: Layout.window.width,
     borderBottomColor: "white",
     borderBottomWidth: 1,
   },
@@ -152,8 +153,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#ACB8C7",
     height: 140,
-    width: Dimensions.get("window").width / 2 - 32 - 20,
-    borderRadius: (Dimensions.get("window").width / 2 - 32 - 20) / 12,
+    width: Layout.window.width / 2 - 32 - 20,
+    borderRadius: (Layout.window.width / 2 - 32 - 20) / 12,
     margin: 12,
     paddingHorizontal: 14,
     paddingTop: 20,
