@@ -1140,7 +1140,7 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@expo/config-plugins@1.0.24":
+"@expo/config-plugins@1.0.24", "@expo/config-plugins@~1.0.13":
   version "1.0.24"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-1.0.24.tgz#d04353500ca4ce6f6eb5f7058ac63e6f09e43486"
   integrity sha512-DB4CgkeZEKG2DWC0GzbLSHuWlxWZ6d3wE95Cjy6DOyR60cFyxo+1eriaxLaBCApX3KrFAdxJFsxvwK9zbCtuzQ==
@@ -3842,6 +3842,13 @@ expo-linking@~2.0.0, expo-linking@~2.0.1:
     invariant "^2.2.4"
     qs "^6.5.0"
     url-parse "^1.4.4"
+
+expo-location@11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-11.0.0.tgz#07df5b1e72cdabdbd9cf53fce985a1ec664dcbd0"
+  integrity sha512-Md/KQiCwED6bHw1kSZt4q0DaAYbabY1N2V0gn/Sj3z8r3dB3+rxWR7KqOAsnnRlQSiQl2qRpMq2HC6v1DtNnsg==
+  dependencies:
+    "@expo/config-plugins" "~1.0.13"
 
 expo-location@~10.0.0:
   version "10.0.0"

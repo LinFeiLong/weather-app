@@ -1,59 +1,26 @@
-import { gql, useQuery, useReactiveVar } from "@apollo/client"
+import { useQuery, useReactiveVar } from "@apollo/client"
 import { useNavigation } from "@react-navigation/native"
-import RNBounceable from "@freakycoder/react-native-bounceable"
-import React, { useEffect } from "react"
-import { Dimensions, Text, View, StyleSheet, Vibration } from "react-native"
+import React from "react"
+import { Text, View, Vibration } from "react-native"
 import LottieView from "lottie-react-native"
 import lookup from "country-code-lookup"
 import _ from "lodash"
 import * as Animatable from "react-native-animatable"
-
-import Icons from "../constants/Icons"
-import { kToC, kToF } from "../utils/temperature"
 import { TouchableWithoutFeedback } from "react-native-gesture-handler"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native-gesture-handler"
-import { citiesInVar, editModeInVar } from "../constants/Apollo"
-import { useState } from "react"
 
-const GET_CITY_BY_NAME = gql`
-  query GetCityByName($name: String!) {
-    getCityByName(name: $name) {
-      id
-      name
-      country
-      coord {
-        lon
-        lat
-      }
-      weather {
-        summary {
-          title
-          description
-          icon
-        }
-        temperature {
-          actual
-          feelsLike
-          min
-          max
-        }
-        wind {
-          speed
-          deg
-        }
-        clouds {
-          all
-          visibility
-          humidity
-        }
-        timestamp
-      }
-    }
-  }
-`
+import { citiesInVar, editModeInVar } from "../constants/Apollo"
+import Icons from "../constants/Icons"
+import { kToC } from "../utils/temperature"
+import { GET_CITY_BY_NAME } from "./WeatherItem.gql"
+import { WEATHER_ITEM_STYLES as styles } from "./WeatherItem.styles"
 interface WeatherItemProps {
   cityName: string
+}
+
+interface ItemContainerProps {
+  children: React.ReactElement | React.ReactElement[]
 }
 
 export const WeatherItem = React.memo(function WeatherItem({
@@ -63,29 +30,27 @@ export const WeatherItem = React.memo(function WeatherItem({
     variables: { name: cityName },
     fetchPolicy: "cache-first",
   })
+  const editModeRV: boolean = useReactiveVar(editModeInVar)
 
   const navigation = useNavigation()
 
-  const editModeRV: boolean = useReactiveVar(editModeInVar)
+  function ItemContainer({ children }: ItemContainerProps) {
+    const handleOnPress = () => {
+      if (!editModeRV) {
+        navigation.navigate("DetailScreen", { data, countryName, cityName })
+      }
+    }
+    const hadnleOnLongPress = () => {
+      if (!editModeRV) {
+        editModeInVar(true)
+        Vibration.vibrate(0)
+      }
+    }
 
-  function ItemContainer({
-    children,
-  }: {
-    children: React.ReactElement | React.ReactElement[]
-  }) {
     return (
       <TouchableWithoutFeedback
-        onPress={() => {
-          if (!editModeRV) {
-            navigation.navigate("DetailScreen", { data, countryName, cityName })
-          }
-        }}
-        onLongPress={() => {
-          if (!editModeRV) {
-            editModeInVar(true)
-            Vibration.vibrate(0)
-          }
-        }}
+        onPress={handleOnPress}
+        onLongPress={hadnleOnLongPress}
       >
         <Animatable.View
           animation={!editModeRV ? "" : "MyShake"}
@@ -99,29 +64,25 @@ export const WeatherItem = React.memo(function WeatherItem({
   }
 
   function DeleteButton() {
+    const handleOnPress = () => {
+      citiesInVar(_.pull([...citiesInVar()], cityName))
+    }
+
     return (
       <View
         style={{
-          position: "absolute",
-          zIndex: 100,
+          ...styles.deleteButtonContainer,
           opacity: !editModeRV ? 0 : 1,
         }}
       >
         <TouchableOpacity
-          style={{
-            height: 25,
-            width: 25,
-            backgroundColor: "#E0E5F1", // Mystic
-            borderRadius: 25 / 2,
-          }}
-          onPress={() => {
-            citiesInVar(_.pull([...citiesInVar()], cityName))
-          }}
+          style={styles.deleteButtonTouchableOpacity}
+          onPress={handleOnPress}
         >
           <MaterialCommunityIcons
             name="minus"
             size={25}
-            style={{ color: "#505674" }} // Chambrey
+            style={styles.deleteButtonIcon}
           />
         </TouchableOpacity>
       </View>
@@ -132,7 +93,7 @@ export const WeatherItem = React.memo(function WeatherItem({
     console.warn({ error })
   }
 
-  // WeatherItem whitout data
+  // WeatherItem loding or whitout data
   if (loading || !data?.getCityByName) {
     return (
       <ItemContainer>
@@ -196,52 +157,4 @@ export const WeatherItem = React.memo(function WeatherItem({
       </View>
     </ItemContainer>
   )
-})
-
-const styles = StyleSheet.create({
-  lottie: {
-    top: -2,
-    right: -2,
-    width: 64,
-    height: 64,
-    backgroundColor: "transparent",
-  },
-  cardHeader: {
-    backgroundColor: "transparent",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  cardFooter: {
-    backgroundColor: "transparent",
-    height: 42,
-  },
-  title: {
-    color: "#F0F1F4",
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-  city: {
-    color: "#F0F1F4",
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 3,
-    alignSelf: "stretch",
-  },
-  country: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: "#F0F1F4",
-    opacity: 0.4,
-  },
-  card: {
-    backgroundColor: "#ACB8C7", // Cadet Blue
-    height: 140,
-    width: Dimensions.get("window").width / 2 - 32 - 20,
-    borderRadius: (Dimensions.get("window").width / 2 - 32 - 20) / 12,
-    margin: 12,
-    paddingHorizontal: 14,
-    paddingTop: 20,
-    paddingBottom: 18,
-    justifyContent: "space-between",
-  },
 })
