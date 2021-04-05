@@ -15,7 +15,7 @@ import {
   NotFoundScreen,
 } from "../screens"
 import LinkingConfiguration from "./LinkingConfiguration"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -54,16 +54,29 @@ function RootNavigator() {
         name="ListScreen"
         component={ListScreen}
         options={({ navigation }) => ({
-          headerTitle: "Add city",
-          headerRight: () => (
-            <MaterialCommunityIcons
-              name="plus"
+          headerTitle: "Weather App",
+          headerLeft: () => (
+            <Ionicons
+              name="search"
               size={32}
               color="white"
               onPress={() => {
                 navigation.navigate("SearchScreen")
               }}
             />
+          ),
+          headerRight: () => (
+            // TODO: make a switch for temperature type.
+            <MaterialCommunityIcons
+              name="temperature-celsius"
+              size={32}
+              color="white"
+            />
+            // <MaterialCommunityIcons
+            //   name="temperature-fahrenheit"
+            //   size={32}
+            //   color="white"
+            // />
           ),
         })}
       />
