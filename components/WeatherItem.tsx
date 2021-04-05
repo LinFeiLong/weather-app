@@ -15,6 +15,7 @@ import Icons from "../constants/Icons"
 import { kToC } from "../utils/temperature"
 import { GET_CITY_BY_NAME } from "./WeatherItem.gql"
 import { WEATHER_ITEM_STYLES as styles } from "./WeatherItem.styles"
+
 interface WeatherItemProps {
   cityName: string
 }

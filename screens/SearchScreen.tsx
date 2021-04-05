@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useState } from "react"
-import { Platform } from "react-native"
+import { Platform, Text, View } from "react-native"
 import SearchInput from "react-native-search-filter"
 import _ from "lodash"
 import { useHeaderHeight } from "@react-navigation/stack"
@@ -13,7 +13,6 @@ import {
 import { citiesList } from "../assets/cities-list"
 import { useNavigation } from "@react-navigation/native"
 
-import { Text, View } from "../components/Themed"
 import { citiesInVar } from "../constants/Apollo"
 import { SEARCH_SCREEN_STYLES as styles } from "./SearchScreen.styles"
 

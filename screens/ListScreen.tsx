@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useEffect, useState } from "react"
-import { StyleSheet } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { useReactiveVar } from "@apollo/client"
 import { LinearGradient } from "expo-linear-gradient"
 import { FlatList } from "react-native-gesture-handler"
@@ -11,8 +11,6 @@ import Colors from "../constants/Colors"
 import { citiesInVar } from "../constants/Apollo"
 import useAsyncStorage from "../hooks/useAsyncStorage"
 import { WeatherItem } from "../components/WeatherItem"
-import { View } from "../components/Themed"
-import Constants from "expo-constants"
 
 const ListHeaderComponent = () => {
   const headerHight = useHeaderHeight()
