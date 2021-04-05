@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient"
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useHeaderHeight } from "@react-navigation/stack"
+import * as Animatable from "react-native-animatable"
 
 import Colors from "../constants/Colors"
 import { citiesInVar } from "../constants/Apollo"
@@ -43,14 +44,20 @@ function ListEmptyComponent() {
     >
       <Text style={[styles.empty, { fontSize: 16 }]}>Your list is empty</Text>
       <Text style={[styles.empty, { marginBottom: 16 }]}>
-        Let's find a city 🏙
+        Let's find a place 🏙
       </Text>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("SearchScreen")
         }}
       >
-        <Ionicons name="search" size={64} color={Colors.athensGrey} />
+        <Animatable.View
+          animation="swing"
+          iterationCount="infinite"
+          duration={1600}
+        >
+          <Ionicons name="search" size={64} color={Colors.athensGrey} />
+        </Animatable.View>
       </TouchableOpacity>
     </View>
   )
@@ -132,6 +139,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     position: "absolute",
+    marginBottom: 8,
   },
   empty: {
     color: Colors.athensGrey,

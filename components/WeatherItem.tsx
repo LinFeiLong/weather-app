@@ -66,7 +66,11 @@ export const WeatherItem = React.memo(function WeatherItem({
 
   function DeleteButton() {
     const handleOnPress = () => {
-      citiesInVar(_.pull([...citiesInVar()], cityName))
+      const newList = _.pull([...citiesInVar()], cityName)
+      citiesInVar(newList)
+      if (_.isEmpty(newList)) {
+        editModeInVar(false)
+      }
     }
 
     return (
@@ -102,7 +106,7 @@ export const WeatherItem = React.memo(function WeatherItem({
         <View style={styles.card}>
           <View style={styles.cardHeader}>
             {loading ? (
-              <Text>Loading ...</Text>
+              <Text style={styles.title}>Loading</Text>
             ) : (
               <Text style={styles.title}>N/A</Text>
             )}

@@ -99,11 +99,9 @@ export function SearchScreen() {
           style={styles.searchInput}
           inputViewStyles={{
             ...styles.inputViewStyles,
-            height:
-              headerHeight +
-              Constants.statusBarHeight +
-              (Platform.OS === "ios" ? -1 : 7) +
-              5,
+            // height:
+            //   // headerHeight +
+            //   Constants.statusBarHeight + (Platform.OS === "ios" ? -1 : 7) + 5,
           }}
           placeholder="Search"
         />

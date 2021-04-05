@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import * as React from "react"
-import { ColorSchemeName, View, Text, StyleSheet } from "react-native"
+import { ColorSchemeName, View, Text, StyleSheet, Platform } from "react-native"
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import { useReactiveVar } from "@apollo/client"
 import { editModeInVar } from "../constants/Apollo"
@@ -71,6 +71,7 @@ function RootNavigator() {
         headerRightContainerStyle: {
           marginRight: Layout.headerHorizontalMargin,
         },
+        animationEnabled: Platform.OS === "ios",
       }}
     >
       <Stack.Screen
@@ -78,6 +79,17 @@ function RootNavigator() {
         component={ListScreen}
         options={({ navigation }) => ({
           headerTitle: !editModeRV ? "Weather App" : "",
+          headerTitleStyle: { alignSelf: "center", color: Colors.athensGrey },
+          headerLeft: () => (
+            <View style={{ flexDirection: "row" }}>
+              <Ionicons
+                name="search"
+                size={Layout.headerIconSize}
+                color={Colors.athensGrey}
+                style={{ opacity: 0 }}
+              />
+            </View>
+          ),
           headerRight: () => (
             <>
               {!editModeRV ? (
@@ -111,14 +123,17 @@ function RootNavigator() {
         options={({ navigation }) => ({
           headerTitle: "",
           headerLeft: () => (
-            <MaterialCommunityIcons
-              name="menu"
-              size={Layout.headerIconSize}
-              color={Colors.athensGrey}
+            <TouchableOpacity
               onPress={() => {
                 navigation.navigate("ListScreen")
               }}
-            />
+            >
+              <MaterialCommunityIcons
+                name="menu"
+                size={Layout.headerIconSize}
+                color={Colors.athensGrey}
+              />
+            </TouchableOpacity>
           ),
         })}
       />

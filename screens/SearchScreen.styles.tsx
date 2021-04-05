@@ -26,8 +26,8 @@ export const SEARCH_SCREEN_STYLES = StyleSheet.create({
   },
   cancelTouchableOpacity: {
     marginTop: Constants.statusBarHeight,
+    height: 42,
     justifyContent: "center",
-    top: -7,
   },
   cancelText: {
     color: Colors.cancelText,
@@ -60,6 +60,7 @@ export const SEARCH_SCREEN_STYLES = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: Colors.bastille,
     paddingHorizontal: 20,
+    paddingVertical: 5,
   },
   flatlist: {
     backgroundColor: Colors.mirage,
