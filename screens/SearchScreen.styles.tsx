@@ -1,9 +1,11 @@
 import Constants from "expo-constants"
 import { StyleSheet } from "react-native"
 
+import Colors from "../constants/Colors"
+
 export const SEARCH_SCREEN_STYLES = StyleSheet.create({
   listEmptyComponentText: {
-    color: "#636468",
+    color: Colors.shuttleGrey,
     fontSize: 20,
     paddingHorizontal: 50,
   },
@@ -13,7 +15,7 @@ export const SEARCH_SCREEN_STYLES = StyleSheet.create({
     justifyContent: "center",
   },
   itemText: {
-    color: "#636468",
+    color: Colors.shuttleGrey,
     fontSize: 20,
     paddingHorizontal: 50,
   },
@@ -28,7 +30,7 @@ export const SEARCH_SCREEN_STYLES = StyleSheet.create({
     top: -7,
   },
   cancelText: {
-    color: "#FEFEFE",
+    color: Colors.cancelText,
     fontSize: 20,
   },
   inputViewStyles: {
@@ -41,25 +43,25 @@ export const SEARCH_SCREEN_STYLES = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "#4F5055", // abbey
-    color: "white",
+    backgroundColor: Colors.abbey,
+    color: Colors.searchInput,
     fontSize: 20,
     borderRadius: 12,
     height: 40,
   },
   container: {
     flex: 1,
-    backgroundColor: "#2A292E", // jaguar
+    backgroundColor: Colors.jaguar,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "transparent",
     borderBottomWidth: 2,
-    borderBottomColor: "#302F34",
+    borderBottomColor: Colors.bastille,
     paddingHorizontal: 20,
   },
   flatlist: {
-    backgroundColor: "#1B1A1F",
+    backgroundColor: Colors.mirage,
   },
 })

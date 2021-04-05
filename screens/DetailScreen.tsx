@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     height: Layout.window.width,
-    borderBottomColor: "white",
+    borderBottomColor: Colors.athensGrey,
     borderBottomWidth: 1,
   },
   cardFooter: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   temperature: {
     marginTop: 38,
-    color: "#F0F1F4",
+    color: Colors.athensGrey,
     fontSize: 22 * 4,
     fontWeight: "bold",
   },
@@ -116,12 +116,12 @@ const styles = StyleSheet.create({
     marginBottom: 42,
   },
   minmax: {
-    color: "#F0F1F4",
+    color: Colors.athensGrey,
     fontSize: 16,
     fontWeight: "bold",
   },
   city: {
-    color: "#F0F1F4",
+    color: Colors.athensGrey,
     fontSize: 24,
     fontWeight: "bold",
     marginTop: 48,
@@ -130,17 +130,17 @@ const styles = StyleSheet.create({
   country: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#F0F1F4",
+    color: Colors.athensGrey,
     opacity: 0.4,
   },
   actual: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#F0F1F4",
+    color: Colors.athensGrey,
     opacity: 0.4,
   },
   card: {
-    backgroundColor: "#ACB8C7",
+    backgroundColor: Colors.cardBackgroundColor,
     height: 140,
     width: Layout.window.width / 2 - 32 - 20,
     borderRadius: (Layout.window.width / 2 - 32 - 20) / 12,

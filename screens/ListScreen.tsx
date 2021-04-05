@@ -72,7 +72,7 @@ export function ListScreen() {
         ListHeaderComponent={ListHeaderComponent}
         ListFooterComponent={ListFooterComponent}
         numColumns={2}
-        contentContainerStyle={{ backgroundColor: "transparent" }}
+        contentContainerStyle={styles.contentContainerStyle}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => {
           return <WeatherItem cityName={item} />
@@ -88,5 +88,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
+  },
+  contentContainerStyle: {
+    backgroundColor: "transparent",
   },
 })

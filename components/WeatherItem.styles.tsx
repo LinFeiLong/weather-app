@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native"
+import Colors from "../constants/Colors"
 import { default as Layout } from "../constants/Layout"
 
 export const WEATHER_ITEM_STYLES = StyleSheet.create({
@@ -9,11 +10,11 @@ export const WEATHER_ITEM_STYLES = StyleSheet.create({
   deleteButtonTouchableOpacity: {
     height: 25,
     width: 25,
-    backgroundColor: "#E0E5F1", // Mystic
+    backgroundColor: Colors.mystic,
     borderRadius: 25 / 2,
   },
   deleteButtonIcon: {
-    color: "#505674", // Chambrey
+    color: Colors.chambrey,
   },
 
   lottie: {

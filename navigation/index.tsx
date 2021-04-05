@@ -19,6 +19,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import { useReactiveVar } from "@apollo/client"
 import { editModeInVar } from "../constants/Apollo"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import Colors from "../constants/Colors"
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -50,7 +51,7 @@ function RootNavigator() {
       screenOptions={{
         headerShown: true,
         headerTransparent: true,
-        headerTitleStyle: { color: "white" },
+        headerTitleStyle: { color: Colors.athensGrey },
         headerLeftContainerStyle: { marginLeft: 32 },
         headerRightContainerStyle: { marginRight: 32 },
       }}
@@ -67,7 +68,7 @@ function RootNavigator() {
                   <Ionicons
                     name="search"
                     size={32}
-                    color="white"
+                    color={Colors.athensGrey}
                     onPress={() => {
                       navigation.navigate("SearchScreen")
                     }}
@@ -77,7 +78,7 @@ function RootNavigator() {
                 <TouchableOpacity
                   style={{
                     flexDirection: "row",
-                    backgroundColor: "#E0E5F1", // Mystic
+                    backgroundColor: Colors.mystic,
                     paddingHorizontal: 10,
                     paddingVertical: 3,
                     borderRadius: 20,
@@ -88,7 +89,7 @@ function RootNavigator() {
                 >
                   <Text
                     style={{
-                      color: "#505674", // Chambrey
+                      color: Colors.chambrey, // Chambrey
                       fontWeight: "bold",
                       fontSize: 16,
                     }}
@@ -117,7 +118,7 @@ function RootNavigator() {
             <MaterialCommunityIcons
               name="menu"
               size={32}
-              color="white"
+              color={Colors.athensGrey}
               onPress={() => {
                 navigation.navigate("ListScreen")
               }}
