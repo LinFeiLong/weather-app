@@ -16,6 +16,9 @@ import {
 } from "../screens"
 import LinkingConfiguration from "./LinkingConfiguration"
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
+import { useReactiveVar } from "@apollo/client"
+import { editModeInVar } from "../constants/Apollo"
+import { TouchableOpacity } from "react-native-gesture-handler"
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -39,6 +42,8 @@ export default function Navigation({
 const Stack = createStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
+  const editModeRV: boolean = useReactiveVar(editModeInVar)
+
   return (
     <Stack.Navigator
       initialRouteName="ListScreen"
@@ -54,28 +59,45 @@ function RootNavigator() {
         name="ListScreen"
         component={ListScreen}
         options={({ navigation }) => ({
-          headerTitle: "Weather App",
+          headerTitle: !editModeRV ? "Weather App" : "",
           headerRight: () => (
-            <View style={{ flexDirection: "row" }}>
-              {/* <MaterialCommunityIcons
-                name="temperature-celsius"
-                size={32}
-                color="white"
-              /> */}
-              {/* // <MaterialCommunityIcons
-              //   name="temperature-fahrenheit"
-              //   size={32}
-              //   color="white"
-              // /> */}
-              <Ionicons
-                name="search"
-                size={32}
-                color="white"
-                onPress={() => {
-                  navigation.navigate("SearchScreen")
-                }}
-              />
-            </View>
+            <>
+              {!editModeRV ? (
+                <View style={{ flexDirection: "row" }}>
+                  <Ionicons
+                    name="search"
+                    size={32}
+                    color="white"
+                    onPress={() => {
+                      navigation.navigate("SearchScreen")
+                    }}
+                  />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "row",
+                    backgroundColor: "#E0E5F1", // Mystic
+                    paddingHorizontal: 10,
+                    paddingVertical: 3,
+                    borderRadius: 20,
+                  }}
+                  onPress={() => {
+                    editModeInVar(false)
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#505674", // Chambrey
+                      fontWeight: "bold",
+                      fontSize: 16,
+                    }}
+                  >
+                    Done
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </>
           ),
         })}
       />
@@ -101,19 +123,6 @@ function RootNavigator() {
               }}
             />
           ),
-          // headerRight: () => (
-          //   // TODO: make a switch for temperature type.
-          //   // <MaterialCommunityIcons
-          //   //   name="temperature-celsius"
-          //   //   size={32}
-          //   //   color="white"
-          //   // />
-          //   // <MaterialCommunityIcons
-          //   //   name="temperature-fahrenheit"
-          //   //   size={32}
-          //   //   color="white"
-          //   // />
-          // ),
         })}
       />
       <Stack.Screen

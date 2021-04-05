@@ -19,7 +19,6 @@ export function ListScreen() {
 
   const [getCities, storeCities] = useAsyncStorage("@cities")
   const [cities, setCities] = useState<string[]>([])
-  const [editMode, setEditMode] = useState(false)
 
   useEffect(() => {
     async function setCitiesInVar() {
@@ -74,13 +73,7 @@ export function ListScreen() {
         contentContainerStyle={{ backgroundColor: "transparent" }}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => {
-          return (
-            <WeatherItem
-              cityName={item}
-              editMode={editMode}
-              setEditMode={setEditMode}
-            />
-          )
+          return <WeatherItem cityName={item} />
         }}
         data={cities}
       />

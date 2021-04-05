@@ -1,7 +1,7 @@
-import { gql, useQuery } from "@apollo/client"
+import { gql, useQuery, useReactiveVar } from "@apollo/client"
 import { useNavigation } from "@react-navigation/native"
 import RNBounceable from "@freakycoder/react-native-bounceable"
-import React from "react"
+import React, { useEffect } from "react"
 import { Dimensions, Text, View, StyleSheet, Vibration } from "react-native"
 import LottieView from "lottie-react-native"
 import lookup from "country-code-lookup"
@@ -13,7 +13,8 @@ import { kToC, kToF } from "../utils/temperature"
 import { TouchableWithoutFeedback } from "react-native-gesture-handler"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native-gesture-handler"
-import { citiesInVar } from "../constants/Apollo"
+import { citiesInVar, editModeInVar } from "../constants/Apollo"
+import { useState } from "react"
 
 const GET_CITY_BY_NAME = gql`
   query GetCityByName($name: String!) {
@@ -53,14 +54,10 @@ const GET_CITY_BY_NAME = gql`
 `
 interface WeatherItemProps {
   cityName: string
-  editMode: boolean
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const WeatherItem = React.memo(function WeatherItem({
   cityName,
-  editMode,
-  setEditMode,
 }: WeatherItemProps) {
   const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
     variables: { name: cityName },
@@ -68,6 +65,8 @@ export const WeatherItem = React.memo(function WeatherItem({
   })
 
   const navigation = useNavigation()
+
+  const editModeRV: boolean = useReactiveVar(editModeInVar)
 
   function ItemContainer({
     children,
@@ -77,19 +76,19 @@ export const WeatherItem = React.memo(function WeatherItem({
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          if (!editMode) {
+          if (!editModeRV) {
             navigation.navigate("DetailScreen", { data, countryName, cityName })
           }
         }}
         onLongPress={() => {
-          if (!editMode) {
-            setEditMode(true)
+          if (!editModeRV) {
+            editModeInVar(true)
             Vibration.vibrate(0)
           }
         }}
       >
         <Animatable.View
-          animation={!editMode ? "" : "MyShake"}
+          animation={!editModeRV ? "" : "MyShake"}
           duration={250}
           iterationCount="infinite"
         >
@@ -105,7 +104,7 @@ export const WeatherItem = React.memo(function WeatherItem({
         style={{
           position: "absolute",
           zIndex: 100,
-          opacity: !editMode ? 0 : 1,
+          opacity: !editModeRV ? 0 : 1,
         }}
       >
         <TouchableOpacity
@@ -119,7 +118,11 @@ export const WeatherItem = React.memo(function WeatherItem({
             citiesInVar(_.pull([...citiesInVar()], cityName))
           }}
         >
-          <MaterialCommunityIcons name="minus" size={25} />
+          <MaterialCommunityIcons
+            name="minus"
+            size={25}
+            style={{ color: "#505674" }} // Chambrey
+          />
         </TouchableOpacity>
       </View>
     )
@@ -231,7 +234,7 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
   card: {
-    backgroundColor: "#ACB8C7",
+    backgroundColor: "#ACB8C7", // Cadet Blue
     height: 140,
     width: Dimensions.get("window").width / 2 - 32 - 20,
     borderRadius: (Dimensions.get("window").width / 2 - 32 - 20) / 12,
