@@ -1,5 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
+/**
+ * useAsyncStorage
+ * hook setter and getter for AsyncStorage
+ * @param key
+ * @returns [getter, setter]
+ */
 export default function useAsyncStorage(key: string) {
   const getter = async (): Promise<string[]> => {
     try {

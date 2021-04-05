@@ -11,13 +11,6 @@ import { kToC } from "../utils/temperature"
 import { default as Layout } from "../constants/Layout"
 
 export function DetailScreen({ route }) {
-  // static sharedElements = (navigation, otherNavigation, showing) => {
-  //   // Transition element `item.${item.id}.photo` when either
-  //   // showing or hiding this screen (coming from any route)
-  //   const item = navigation.getParam('item');
-  //   return [`item.${item.id}.photo`];
-  // }
-
   const headerHight = useHeaderHeight()
 
   const { data, countryName, cityName } = route.params
@@ -35,8 +28,6 @@ export function DetailScreen({ route }) {
       },
     },
   } = data
-
-  console.log({ data })
 
   return (
     <LinearGradient
@@ -95,7 +86,6 @@ const styles = StyleSheet.create({
   lottieContainer: {
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "red",
   },
   lottie: {
     top: -8,
@@ -126,7 +116,6 @@ const styles = StyleSheet.create({
     marginBottom: 42,
   },
   minmax: {
-    // marginTop: 38,
     color: "#F0F1F4",
     fontSize: 16,
     fontWeight: "bold",

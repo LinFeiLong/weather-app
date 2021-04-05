@@ -1,3 +1,7 @@
+/**
+ * GET_CITY_BY_NAME_DATA
+ * Data mockup
+ */
 export const GET_CITY_BY_NAME_DATA = {
   data: {
     getCityByName: {

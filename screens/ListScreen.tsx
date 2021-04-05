@@ -12,11 +12,23 @@ import { citiesInVar } from "../constants/Apollo"
 import useAsyncStorage from "../hooks/useAsyncStorage"
 import { WeatherItem } from "../components/WeatherItem"
 import { View } from "../components/Themed"
+import Constants from "expo-constants"
+
+const ListHeaderComponent = () => {
+  const headerHight = useHeaderHeight()
+  return (
+    <View style={{ height: headerHight, backgroundColor: "transparent" }} />
+  )
+}
+
+const ListFooterComponent = () => {
+  const insets = useSafeAreaInsets()
+  return (
+    <View style={{ height: insets.bottom, backgroundColor: "transparent" }} />
+  )
+}
 
 export function ListScreen() {
-  const insets = useSafeAreaInsets()
-  const headerHight = useHeaderHeight()
-
   const [getCities, storeCities] = useAsyncStorage("@cities")
   const [cities, setCities] = useState<string[]>([])
 
@@ -59,16 +71,8 @@ export function ListScreen() {
       <FlatList
         style={{ overflow: "visible" }}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={() => (
-          <View
-            style={{ height: headerHight, backgroundColor: "transparent" }}
-          />
-        )}
-        ListFooterComponent={() => (
-          <View
-            style={{ height: insets.bottom, backgroundColor: "transparent" }}
-          />
-        )}
+        ListHeaderComponent={ListHeaderComponent}
+        ListFooterComponent={ListFooterComponent}
         numColumns={2}
         contentContainerStyle={{ backgroundColor: "transparent" }}
         keyExtractor={(item, index) => index.toString()}
