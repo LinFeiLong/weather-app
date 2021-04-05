@@ -90,7 +90,7 @@ function RootNavigator() {
         name="DetailScreen"
         component={DetailScreen}
         options={({ navigation }) => ({
-          headerTitle: "Date",
+          headerTitle: "",
           headerLeft: () => (
             <MaterialCommunityIcons
               name="menu"

@@ -71,7 +71,14 @@ export function WeatherItem({ cityName }: { cityName: string }) {
           <View style={styles.lottie} />
         </View>
         <View style={styles.cardFooter}>
-          <Text style={styles.city}>{cityName}</Text>
+          <Text
+            style={styles.city}
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {cityName}
+          </Text>
           <Text style={styles.country} />
         </View>
       </RNBounceable>
@@ -95,7 +102,7 @@ export function WeatherItem({ cityName }: { cityName: string }) {
     <RNBounceable
       style={styles.card}
       onPress={() => {
-        navigation.navigate("DetailScreen")
+        navigation.navigate("DetailScreen", { data, countryName, cityName })
       }}
     >
       <View style={styles.cardHeader}>
@@ -125,6 +132,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     backgroundColor: "transparent",
+    height: 42,
   },
   title: {
     color: "#F0F1F4",
@@ -136,6 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 3,
+    alignSelf: "stretch",
   },
   country: {
     fontSize: 12,
