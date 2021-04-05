@@ -121,13 +121,5 @@ const styles = StyleSheet.create({
     padding: 16,
     fontWeight: "bold",
   },
-  item: {
-    padding: 16,
-  },
-  mission: {},
-  launchDate: {
-    fontSize: 12,
-  },
-  content: { flex: 1 },
   controls: { flex: 0 },
 })
