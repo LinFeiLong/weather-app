@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import * as React from "react"
-import { ColorSchemeName } from "react-native"
+import { ColorSchemeName, View, Text } from "react-native"
 
 import { RootStackParamList } from "../types"
 import {
@@ -55,28 +55,27 @@ function RootNavigator() {
         component={ListScreen}
         options={({ navigation }) => ({
           headerTitle: "Weather App",
-          headerLeft: () => (
-            <Ionicons
-              name="search"
-              size={32}
-              color="white"
-              onPress={() => {
-                navigation.navigate("SearchScreen")
-              }}
-            />
-          ),
           headerRight: () => (
-            // TODO: make a switch for temperature type.
-            <MaterialCommunityIcons
-              name="temperature-celsius"
-              size={32}
-              color="white"
-            />
-            // <MaterialCommunityIcons
-            //   name="temperature-fahrenheit"
-            //   size={32}
-            //   color="white"
-            // />
+            <View style={{ flexDirection: "row" }}>
+              {/* <MaterialCommunityIcons
+                name="temperature-celsius"
+                size={32}
+                color="white"
+              /> */}
+              {/* // <MaterialCommunityIcons
+              //   name="temperature-fahrenheit"
+              //   size={32}
+              //   color="white"
+              // /> */}
+              <Ionicons
+                name="search"
+                size={32}
+                color="white"
+                onPress={() => {
+                  navigation.navigate("SearchScreen")
+                }}
+              />
+            </View>
           ),
         })}
       />
@@ -102,19 +101,19 @@ function RootNavigator() {
               }}
             />
           ),
-          headerRight: () => (
-            // TODO: make a switch for temperature type.
-            <MaterialCommunityIcons
-              name="temperature-celsius"
-              size={32}
-              color="white"
-            />
-            // <MaterialCommunityIcons
-            //   name="temperature-fahrenheit"
-            //   size={32}
-            //   color="white"
-            // />
-          ),
+          // headerRight: () => (
+          //   // TODO: make a switch for temperature type.
+          //   // <MaterialCommunityIcons
+          //   //   name="temperature-celsius"
+          //   //   size={32}
+          //   //   color="white"
+          //   // />
+          //   // <MaterialCommunityIcons
+          //   //   name="temperature-fahrenheit"
+          //   //   size={32}
+          //   //   color="white"
+          //   // />
+          // ),
         })}
       />
       <Stack.Screen
