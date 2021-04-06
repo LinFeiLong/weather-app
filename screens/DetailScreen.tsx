@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   lottie: {
     top: -8,
-    right: -4,
+    right: -8,
     width: 64 * 3,
     height: 64 * 3,
     backgroundColor: "transparent",
