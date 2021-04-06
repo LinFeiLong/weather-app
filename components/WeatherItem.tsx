@@ -30,7 +30,7 @@ export const WeatherItem = React.memo(function WeatherItem({
 }: WeatherItemProps) {
   const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
     variables: { name: cityName },
-    fetchPolicy: "cache-first",
+    fetchPolicy: "cache-and-network",
   })
   const editModeRV: boolean = useReactiveVar(editModeInVar)
 
