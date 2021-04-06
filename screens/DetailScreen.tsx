@@ -31,6 +31,8 @@ export function DetailScreen({ route }) {
     },
   } = data
 
+  console.log(data)
+
   return (
     <LinearGradient
       colors={[

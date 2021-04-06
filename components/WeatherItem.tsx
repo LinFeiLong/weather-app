@@ -147,7 +147,7 @@ export const WeatherItem = React.memo(function WeatherItem({
   const countryName = lookup.byIso(country).country
 
   return (
-    <ItemContainer>
+    <ItemContainer disabled={editModeRV}>
       <DeleteButton />
       <View style={styles.card}>
         <View style={styles.cardHeader}>
