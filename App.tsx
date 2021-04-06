@@ -16,6 +16,7 @@ import { AsyncStorageWrapper, CachePersistor } from "apollo3-cache-persist"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { citiesInVar } from "./constants/Apollo"
 import { Button, DevSettings, StyleSheet, Text, View } from "react-native"
+import { changeScreenOrientation } from "./utils/orientation" // expo
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
@@ -56,6 +57,7 @@ export default function App() {
           connectToDevTools: true,
         })
       )
+      await changeScreenOrientation() // expo
     }
 
     init().catch(console.error)
