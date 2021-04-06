@@ -115,7 +115,7 @@ export const WeatherItem = React.memo(function WeatherItem({
             )}
             <View style={styles.lottie} />
           </View>
-          <View style={styles.cardFooter}>
+          <View style={styles.cardFooter} pointerEvents="none">
             <TextTicker
               duration={1000}
               loop
