@@ -1,16 +1,16 @@
 # Welcome to Weather App
 
-https://github.com/LinFeiLong/weather-app
+https://github.com/LinFeiLong/weather-app<br>
+<br>
 
-This app was made for a recruitment test for HappyPal.
+This app was made during a recruitment test for [HappyPal](https://www.happypal.fr/).<br>
 https://www.notion.so/Give-me-weather-5050ba0e2d0e43768d243c916e80c0f5
 
-The deisgn is inspired from the Weather app from Kostya Sobol
-https://dribbble.com/shots/13372672-Weather-app
+The design is inspired from the Weather app from Kostya Sobol<br>
+https://dribbble.com/shots/13372672-Weather-app<br>
 and also The Weather Channel app from iOS.
-
-Things I wish I had more time to do
-
+<br><br>
+Things I wish I had more time to do :
 - Use of shared elements for Cards
 - Dynamic background based on the weather
 - Slide DetailScreen to view another city
