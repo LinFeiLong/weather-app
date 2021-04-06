@@ -64,13 +64,13 @@ export default function App() {
     Animatable.initializeRegistryWithDefinitions({
       MyShake: {
         0: {
-          transform: [{ rotateZ: -0.04 }],
+          transform: [{ rotateZ: "-1deg" }],
         },
         0.5: {
-          transform: [{ rotateZ: 0.04 }],
+          transform: [{ rotateZ: "1deg" }],
         },
         1: {
-          transform: [{ rotateZ: -0.04 }],
+          transform: [{ rotateZ: "-1deg" }],
         },
       },
     })

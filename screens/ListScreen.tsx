@@ -44,7 +44,7 @@ function ListEmptyComponent() {
     >
       <Text style={[styles.empty, { fontSize: 16 }]}>Your list is empty</Text>
       <Text style={[styles.empty, { marginBottom: 16 }]}>
-        Let's find a place 🏙
+        Let's find a location 🏙
       </Text>
       <TouchableOpacity
         onPress={() => {

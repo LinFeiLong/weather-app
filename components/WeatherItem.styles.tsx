@@ -1,10 +1,16 @@
-import { StyleSheet } from "react-native"
+import { Platform, StyleSheet } from "react-native"
 import Colors from "../constants/Colors"
 import { default as Layout } from "../constants/Layout"
 
 export const WEATHER_ITEM_STYLES = StyleSheet.create({
   deleteButtonContainer: {
     position: "absolute",
+    ...Platform.select({
+      android: {
+        top: 5,
+        left: 5,
+      },
+    }),
     zIndex: 100,
   },
   deleteButtonTouchableOpacity: {
