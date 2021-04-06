@@ -52,7 +52,11 @@ export const WeatherItem = React.memo(function WeatherItem({
 
     return (
       <TouchableOpacity
-        onPress={handleOnPress}
+        onPress={() => {
+          if (!disabled) {
+            handleOnPress()
+          }
+        }}
         onLongPress={handleOnLongPress}
         activeOpacity={0.5}
       >
