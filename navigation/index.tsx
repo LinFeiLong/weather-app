@@ -93,16 +93,18 @@ function RootNavigator() {
           headerRight: () => (
             <>
               {!editModeRV ? (
-                <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  style={{ flexDirection: "row" }}
+                  onPress={() => {
+                    navigation.navigate("SearchScreen")
+                  }}
+                >
                   <Ionicons
                     name="search"
                     size={Layout.headerIconSize}
                     color={Colors.athensGrey}
-                    onPress={() => {
-                      navigation.navigate("SearchScreen")
-                    }}
                   />
-                </View>
+                </TouchableOpacity>
               ) : (
                 <DoneButton />
               )}

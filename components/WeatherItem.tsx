@@ -6,7 +6,6 @@ import LottieView from "lottie-react-native"
 import lookup from "country-code-lookup"
 import _ from "lodash"
 import * as Animatable from "react-native-animatable"
-import { TouchableWithoutFeedback } from "react-native-gesture-handler"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import TextTicker from "react-native-text-ticker"
@@ -50,9 +49,10 @@ export const WeatherItem = React.memo(function WeatherItem({
     }
 
     return (
-      <TouchableWithoutFeedback
+      <TouchableOpacity
         onPress={handleOnPress}
         onLongPress={hadnleOnLongPress}
+        activeOpacity={0.5}
       >
         <Animatable.View
           animation={!editModeRV ? "" : "MyShake"}
@@ -61,7 +61,7 @@ export const WeatherItem = React.memo(function WeatherItem({
         >
           {children}
         </Animatable.View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     )
   }
 
