@@ -9,6 +9,7 @@ import * as Animatable from "react-native-animatable"
 import { TouchableWithoutFeedback } from "react-native-gesture-handler"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import TextTicker from "react-native-text-ticker"
 
 import { citiesInVar, editModeInVar } from "../constants/Apollo"
 import Icons from "../constants/Icons"
@@ -98,7 +99,7 @@ export const WeatherItem = React.memo(function WeatherItem({
     console.warn({ error })
   }
 
-  // WeatherItem loding or whitout data
+  // WeatherItem loading or whitout data
   if (loading || !data?.getCityByName) {
     return (
       <ItemContainer>
@@ -113,14 +114,15 @@ export const WeatherItem = React.memo(function WeatherItem({
             <View style={styles.lottie} />
           </View>
           <View style={styles.cardFooter}>
-            <Text
+            <TextTicker
+              duration={1000}
+              loop
+              repeatSpacer={50}
+              marqueeDelay={1000}
               style={styles.city}
-              adjustsFontSizeToFit
-              numberOfLines={1}
-              ellipsizeMode="tail"
             >
               {cityName}
-            </Text>
+            </TextTicker>
             <Text style={styles.country} />
           </View>
         </View>
@@ -156,8 +158,26 @@ export const WeatherItem = React.memo(function WeatherItem({
           />
         </View>
         <View style={styles.cardFooter}>
-          <Text style={styles.city}>{cityName}</Text>
-          <Text style={styles.country}>{countryName}</Text>
+          <TextTicker
+            duration={3000}
+            loop
+            bounce
+            repeatSpacer={50}
+            marqueeDelay={1000}
+            style={styles.city}
+          >
+            {cityName}
+          </TextTicker>
+          <TextTicker
+            duration={3000}
+            loop
+            bounce
+            repeatSpacer={50}
+            marqueeDelay={1000}
+            style={styles.country}
+          >
+            {countryName}
+          </TextTicker>
         </View>
       </View>
     </ItemContainer>

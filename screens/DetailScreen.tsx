@@ -4,6 +4,7 @@ import { StyleSheet, View, Text } from "react-native"
 import LottieView from "lottie-react-native"
 import _ from "lodash"
 import { useHeaderHeight } from "@react-navigation/stack"
+import TextTicker from "react-native-text-ticker"
 
 import Icons from "../constants/Icons"
 import Colors from "../constants/Colors"
@@ -41,7 +42,16 @@ export function DetailScreen({ route }) {
       <View style={styles.cardHeader}>
         <View style={styles.leftContainer}>
           <View style={styles.left}>
-            <Text style={styles.city}>{cityName}</Text>
+            <TextTicker
+              duration={3000}
+              loop
+              bounce
+              repeatSpacer={50}
+              marqueeDelay={1000}
+              style={styles.city}
+            >
+              {cityName}
+            </TextTicker>
             <Text style={styles.country}>{countryName}</Text>
             <Text style={styles.temperature}>{`${_.round(
               kToC(actual)
