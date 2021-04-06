@@ -53,9 +53,7 @@ export function DetailScreen({ route }) {
               {cityName}
             </TextTicker>
             <Text style={styles.country}>{countryName}</Text>
-            <Text style={styles.temperature}>{`${_.round(
-              kToC(actual)
-            )}°`}</Text>
+            <Text style={styles.actual}>{`${_.round(kToC(actual))}°`}</Text>
             <View style={styles.minmaxContainer}>
               <MaterialCommunityIcons
                 name="chevron-up"
@@ -63,18 +61,18 @@ export function DetailScreen({ route }) {
                 style={styles.chevron}
               />
               <Text style={[styles.minmax, { marginRight: 4 }]}>{`${_.round(
-                kToC(actual)
+                kToC(max)
               )}°`}</Text>
               <MaterialCommunityIcons
                 name="chevron-down"
                 size={20}
                 style={styles.chevron}
               />
-              <Text style={styles.minmax}>{`${_.round(kToC(actual))}°`}</Text>
+              <Text style={styles.minmax}>{`${_.round(kToC(min))}°`}</Text>
             </View>
             <Text style={styles.description}>{_.upperFirst(description)}</Text>
-            <Text style={styles.actual}>{`Feels like ${_.round(
-              kToC(actual)
+            <Text style={styles.feelslike}>{`Feels like ${_.round(
+              kToC(feelsLike)
             )}°`}</Text>
           </View>
         </View>
@@ -98,10 +96,11 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   description: {
-    color: "white",
+    color: Colors.athensGrey,
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 6,
+    opacity: 0.8,
   },
   container: {
     flex: 1,
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
   cardFooter: {
     backgroundColor: "transparent",
   },
-  temperature: {
+  actual: {
     marginTop: 38,
     color: Colors.athensGrey,
     fontSize: 22 * 4,
@@ -143,6 +142,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  feelslike: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: Colors.athensGrey,
+    opacity: 0.4,
+  },
   city: {
     color: Colors.athensGrey,
     fontSize: 24,
@@ -154,12 +159,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: Colors.athensGrey,
-  },
-  actual: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: Colors.athensGrey,
-    opacity: 0.4,
   },
   chevron: {
     color: Colors.athensGrey,
