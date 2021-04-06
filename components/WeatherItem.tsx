@@ -1,7 +1,7 @@
 import { useQuery, useReactiveVar } from "@apollo/client"
 import { useNavigation } from "@react-navigation/native"
 import React from "react"
-import { Text, View, Vibration } from "react-native"
+import { Text, View } from "react-native"
 import LottieView from "lottie-react-native"
 import lookup from "country-code-lookup"
 import _ from "lodash"
@@ -9,6 +9,7 @@ import * as Animatable from "react-native-animatable"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import TextTicker from "react-native-text-ticker"
+import * as Haptics from "expo-haptics"
 
 import { citiesInVar, editModeInVar } from "../constants/Apollo"
 import Icons from "../constants/Icons"
@@ -42,18 +43,17 @@ export const WeatherItem = React.memo(function WeatherItem({
         navigation.navigate("DetailScreen", { data, countryName, cityName })
       }
     }
-    const hadnleOnLongPress = () => {
+    const handleOnLongPress = () => {
       if (!editModeRV) {
         editModeInVar(true)
-        Vibration.vibrate(0)
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
       }
     }
 
     return (
       <TouchableOpacity
-        disabled={disabled}
         onPress={handleOnPress}
-        onLongPress={hadnleOnLongPress}
+        onLongPress={handleOnLongPress}
         activeOpacity={0.5}
       >
         <Animatable.View
