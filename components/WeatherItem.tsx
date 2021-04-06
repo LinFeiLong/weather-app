@@ -22,6 +22,7 @@ interface WeatherItemProps {
 
 interface ItemContainerProps {
   children: React.ReactElement | React.ReactElement[]
+  disabled?: boolean
 }
 
 export const WeatherItem = React.memo(function WeatherItem({
@@ -35,7 +36,7 @@ export const WeatherItem = React.memo(function WeatherItem({
 
   const navigation = useNavigation()
 
-  function ItemContainer({ children }: ItemContainerProps) {
+  function ItemContainer({ children, disabled }: ItemContainerProps) {
     const handleOnPress = () => {
       if (!editModeRV) {
         navigation.navigate("DetailScreen", { data, countryName, cityName })
@@ -50,6 +51,7 @@ export const WeatherItem = React.memo(function WeatherItem({
 
     return (
       <TouchableOpacity
+        disabled={disabled}
         onPress={handleOnPress}
         onLongPress={hadnleOnLongPress}
         activeOpacity={0.5}
@@ -102,7 +104,7 @@ export const WeatherItem = React.memo(function WeatherItem({
   // WeatherItem loading or whitout data
   if (loading || !data?.getCityByName) {
     return (
-      <ItemContainer>
+      <ItemContainer disabled>
         <DeleteButton />
         <View style={styles.card}>
           <View style={styles.cardHeader}>
@@ -157,7 +159,7 @@ export const WeatherItem = React.memo(function WeatherItem({
             source={Icons[icon]}
           />
         </View>
-        <View style={styles.cardFooter}>
+        <View style={styles.cardFooter} pointerEvents="none">
           <TextTicker
             duration={3000}
             loop
