@@ -16,13 +16,15 @@ Things I wish I had more time to do
 - Slide DetailScreen to view another city
 - By default the first item shows the current location's weather
 
-I spent 34 hours to make this app.
+I spent 35 hours to make this app.
 
 The app is published at Expo.io
 https://expo.io/@flime42/projects/weather-app
 
 Fernand LIME
 
-<img src="https://user-images.githubusercontent.com/6100043/113643198-0fcdea00-9682-11eb-803c-59efb2849f6a.png" width="200">
-<img src="https://user-images.githubusercontent.com/6100043/113643203-1197ad80-9682-11eb-960c-6b76603c755e.png" width="200">
-<img src="https://user-images.githubusercontent.com/6100043/113643206-12c8da80-9682-11eb-8995-18400f57965b.png" width="200">
+<div style={{flex-direction: 'row'}}>
+  <img src="https://user-images.githubusercontent.com/6100043/113643206-12c8da80-9682-11eb-8995-18400f57965b.png" width="200">
+  <img src="https://user-images.githubusercontent.com/6100043/113643198-0fcdea00-9682-11eb-803c-59efb2849f6a.png" width="200">
+  <img src="https://user-images.githubusercontent.com/6100043/113643203-1197ad80-9682-11eb-960c-6b76603c755e.png" width="200">
+</div>
