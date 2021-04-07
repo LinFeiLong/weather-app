@@ -1,6 +1,6 @@
 import { useQuery, useReactiveVar } from "@apollo/client"
 import { useNavigation } from "@react-navigation/native"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Text, View } from "react-native"
 import LottieView from "lottie-react-native"
 import lookup from "country-code-lookup"
@@ -26,14 +26,48 @@ interface ItemContainerProps {
   disabled?: boolean
 }
 
+const DEFAULT_WEATHER_DATA = {
+  getCityByName: {
+    name: "",
+    country: "",
+    weather: {
+      summary: { title: "", description: "", icon: "" },
+      temperature: { actual: "", feelsLike: "", min: "", max: "" },
+      wind: { speed: "", deg: "" },
+      clouds: { all: "", visibility: "", humidity: "" },
+      timestamp: "",
+    },
+  },
+}
+
 export const WeatherItem = React.memo(function WeatherItem({
   cityName,
 }: WeatherItemProps) {
   const { loading, error, data } = useQuery(GET_CITY_BY_NAME, {
     variables: { name: cityName },
     fetchPolicy: "cache-and-network",
+    pollInterval: 60000, // 1 minute
   })
   const editModeRV: boolean = useReactiveVar(editModeInVar)
+  const [weatherData, setWeatherData] = useState(DEFAULT_WEATHER_DATA)
+
+  const {
+    getCityByName: {
+      name,
+      country,
+      weather: {
+        summary: { title, description, icon },
+        temperature: { actual, feelsLike, min, max },
+        wind: { speed, deg },
+        clouds: { all, visibility, humidity },
+        timestamp,
+      },
+    },
+  } = weatherData
+
+  useEffect(() => {
+    setWeatherData(data)
+  }, [data])
 
   const navigation = useNavigation()
 
@@ -105,18 +139,50 @@ export const WeatherItem = React.memo(function WeatherItem({
     console.warn({ error })
   }
 
-  // WeatherItem loading or whitout data
-  if (loading || !data?.getCityByName) {
+  // WeatherItem loading
+  if (loading) {
     return (
       <ItemContainer disabled>
         <DeleteButton />
         <View style={styles.card}>
           <View style={styles.cardHeader}>
-            {loading ? (
-              <Text style={styles.title}>Loading</Text>
-            ) : (
-              <Text style={styles.title}>N/A</Text>
+            <Text style={styles.title}>
+              {actual && `${_.round(kToC(actual))}°`}
+            </Text>
+            {icon !== "" && (
+              <LottieView
+                autoPlay
+                loop
+                style={styles.lottie}
+                source={Icons[icon]}
+              />
             )}
+          </View>
+          <View style={styles.cardFooter} pointerEvents="none">
+            <TextTicker
+              duration={1000}
+              loop
+              repeatSpacer={50}
+              marqueeDelay={1000}
+              style={styles.city}
+            >
+              {cityName}
+            </TextTicker>
+            <Text style={styles.country} />
+          </View>
+        </View>
+      </ItemContainer>
+    )
+  }
+
+  // WeatherItem whitout data
+  if (!data?.getCityByName) {
+    return (
+      <ItemContainer disabled>
+        <DeleteButton />
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <Text style={styles.title}>N/A</Text>
             <View style={styles.lottie} />
           </View>
           <View style={styles.cardFooter} pointerEvents="none">
@@ -136,17 +202,7 @@ export const WeatherItem = React.memo(function WeatherItem({
     )
   }
 
-  // WeatherItem with data
-  const {
-    getCityByName: {
-      country,
-      name,
-      weather: {
-        summary: { icon },
-        temperature: { actual },
-      },
-    },
-  } = data
+  console.log({ timestamp })
 
   const countryName = lookup.byIso(country).country
 
