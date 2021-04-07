@@ -51,20 +51,6 @@ export const WeatherItem = React.memo(function WeatherItem({
   const editModeRV: boolean = useReactiveVar(editModeInVar)
   const [weatherData, setWeatherData] = useState(DEFAULT_WEATHER_DATA)
 
-  const {
-    getCityByName: {
-      name,
-      country,
-      weather: {
-        summary: { title, description, icon },
-        temperature: { actual, feelsLike, min, max },
-        wind: { speed, deg },
-        clouds: { all, visibility, humidity },
-        timestamp,
-      },
-    },
-  } = weatherData
-
   useEffect(() => {
     setWeatherData(data)
   }, [data])
@@ -139,6 +125,47 @@ export const WeatherItem = React.memo(function WeatherItem({
     console.warn({ error })
   }
 
+  // WeatherItem whitout data
+  if (!weatherData?.getCityByName) {
+    return (
+      <ItemContainer disabled>
+        <DeleteButton />
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <Text style={styles.title}>N/A</Text>
+            <View style={styles.lottie} />
+          </View>
+          <View style={styles.cardFooter} pointerEvents="none">
+            <TextTicker
+              duration={1000}
+              loop
+              repeatSpacer={50}
+              marqueeDelay={1000}
+              style={styles.city}
+            >
+              {cityName}
+            </TextTicker>
+            <Text style={styles.country} />
+          </View>
+        </View>
+      </ItemContainer>
+    )
+  }
+
+  const {
+    getCityByName: {
+      name,
+      country,
+      weather: {
+        summary: { title, description, icon },
+        temperature: { actual, feelsLike, min, max },
+        wind: { speed, deg },
+        clouds: { all, visibility, humidity },
+        timestamp,
+      },
+    },
+  } = weatherData
+
   // WeatherItem loading
   if (loading) {
     return (
@@ -174,35 +201,6 @@ export const WeatherItem = React.memo(function WeatherItem({
       </ItemContainer>
     )
   }
-
-  // WeatherItem whitout data
-  if (!data?.getCityByName) {
-    return (
-      <ItemContainer disabled>
-        <DeleteButton />
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.title}>N/A</Text>
-            <View style={styles.lottie} />
-          </View>
-          <View style={styles.cardFooter} pointerEvents="none">
-            <TextTicker
-              duration={1000}
-              loop
-              repeatSpacer={50}
-              marqueeDelay={1000}
-              style={styles.city}
-            >
-              {cityName}
-            </TextTicker>
-            <Text style={styles.country} />
-          </View>
-        </View>
-      </ItemContainer>
-    )
-  }
-
-  console.log({ timestamp })
 
   const countryName = lookup.byIso(country).country
 
